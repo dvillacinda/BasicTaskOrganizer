@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Language Switcher</title>
+    <link rel="stylesheet" href="style-language.css">
+</head>
+
+<body>
+    <form>
+        <fieldset>
+            <legend id="select_lang"> </legend><br />
+            <label class="switch">
+                <input type="radio" id="en" name="language" value="english">
+                <span class="slider round"></span>
+            </label>
+            <label for="english" id="english"></label><br>
+            <label class="switch">
+                <input type="radio" id="es" name="language" value="spanish">
+                <span class="slider round"></span>
+            </label>
+            <label for="spanish" id="spanish"></label><br>
+        </fieldset>
+    </form>
+
+    <script>
+        const ID_ARRAY = ["select_lang", "english", "spanish"]; // Array of IDs to translate
+    </script>
+
+    <script>
+        fetch("/api/lang")
+            .then(response => response.json())
+            .then(data => {
+                valData(data);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+
+        function valData(data) {
+            data.forEach(item => {
+                if (item.checked) {
+                    document.getElementById(`${item.language}`).checked = true;
+                    write(item.language);
+                    return;
+                }
+            });
+        }
+
+    </script>
+    <script>
+        function write(lang) {
+            for (let i = 0; i < ID_ARRAY.length; i++) {
+                fetch(`/api/translator/${ID_ARRAY[i]}/${lang}`)
+                    .then((response) => response.text())
+                    .then(data => {
+                        document.getElementById(ID_ARRAY[i]).innerHTML = data;
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+            }
+        }
+    </script>
+
+    <script>
+
+        document.getElementById('es').addEventListener('change', function () {
+            if (document.getElementById("es").checked) {
+                checkLang(2);
+                uncheckLang(1);
+
+            }
+        });
+        document.getElementById('en').addEventListener('change', function () {
+            if (document.getElementById("en").checked) {
+                checkLang(1);
+                uncheckLang(2);
+            }
+        });
+        function uncheckLang(id) {
+            json_data = {
+                checked: false
+            }
+            fetch(`/api/lang/${id}`, {
+                method: "PUT",
+                body: JSON.stringify(json_data),
+                headers: {
+                    'Content-Type': 'application/json'//indica el tipo de dato que se enviara
+                }
+            })
+                .then((response) => {
+                    return response.text();
+                })
+                .then(data => {
+                    console.log(data)
+                })
+                .catch((error) => { alert('Error:', JSON.stringify(error)) });
+        }
+        function checkLang(id) {
+            json_data = {
+                checked: true
+            }
+            fetch(`/api/lang/${id}`, {
+                method: "PUT",
+                body: JSON.stringify(json_data),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then((response) => {
+                    return response.text();
+                })
+                .then(data => {
+                    console.log(data)
+                })
+                .catch((error) => { alert('Error:', JSON.stringify(error)) });
+        }
+
+    </script>
+</body>
+
+</html>

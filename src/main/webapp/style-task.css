@@ -1,0 +1,186 @@
+body {
+    font-family: "Otif", sans-serif;
+    color: #fff;
+}
+
+p {
+    position: absolute;
+    padding-top: 50px;
+    left: 400px;
+    padding-bottom: 100px;
+}
+
+h4 {
+    position: relative;
+    top: -30px;
+    margin: 0;
+
+}
+
+.container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+}
+
+.tasks {
+    position: relative;
+    top: 100px;
+    left: -220px;
+}
+
+
+.in_progress {
+    padding-top: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 60px;
+    width: 500px;
+    color: black;
+    background-color: #F5D565;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.3s;
+}
+
+.in_progress:hover {
+    transform: translateY(-5px);
+}
+
+.in_progress-after {
+    position: relative;
+    width: 7%;
+    height: 300px;
+    left: 45%;
+    padding-top: 8%;
+    color: white;
+    background-color: #e9a23b;
+
+}
+
+.completed {
+    padding-top: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 60px;
+    width: 500px;
+    color: black;
+    background-color: #A0ECB1;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.3s;
+}
+
+.completed:hover {
+    transform: translateY(-5px);
+}
+
+.completed-after {
+    position: relative;
+    width: 7%;
+    height: 300px;
+    left: 45%;
+    padding-top: 8%;
+    color: white;
+    background-color: #32D657;
+}
+
+.wont_do {
+    padding-top: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 60px;
+    width: 500px;
+    color: black;
+    background-color: #F7D4D3;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.3s;
+}
+
+.wont_do:hover {
+    transform: translateY(-5px);
+}
+
+.wont_do-after {
+    position: relative;
+    width: 7%;
+    height: 300px;
+    left: 45%;
+    padding-top: 8%;
+    color: white;
+    background-color: #DD524C;
+}
+
+.add-task {
+    padding-top: 5px;
+    display: flex;
+    justify-content: center;
+    color: black;
+    background-color: #F5E8D5;
+
+    height: 60px;
+    width: 500px
+}
+
+.add-task-before {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    color: white;
+    right: 300px;
+    background-color: #E9A23B;
+    height: 55px;
+    width: 55px;
+}
+
+.task-space {
+    height: 20px;
+}
+
+.formulario-container {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #f9f9f9;
+    padding: 20px;
+    border: 1px solid #ccc;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 999;
+}
+
+.radio-img {
+    display: inline-block;
+    margin: 10px;
+}
+
+.radio-img input[type="radio"] {
+    display: none;
+}
+
+.radio-img label {
+    display: block;
+    border: 1px solid #ddd;
+    padding: 5px;
+    cursor: pointer;
+}
+
+.radio-img label:hover {
+    border-color: #ccc;
+}
+
+.radio-img label img {
+    width: 25px;
+    height: 25px;
+    object-fit: cover;
+    margin-bottom: 5px;
+}
+
+.radio-img input[type="radio"]:checked+label {
+    border-color: #007BFF;
+}

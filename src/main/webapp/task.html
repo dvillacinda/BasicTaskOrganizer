@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Insert title here</title>
+    <link rel="stylesheet" type="text/css" href="style-task.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Otif">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+</head>
+
+
+<body>
+
+    <div class="container">
+        <h1 id="task_board"></h1>
+        <p id="description_task_board"></p>
+        <div class="tasks" id="tasks-div">
+            <div id="new-tasks-div">
+            </div>
+
+            <div class="task-space"></div>
+            <div  class="add-task" id="add-task-div">
+                <button style="width: 200px; height: 55px;" type="button" class="btn btn-warning" id="add_btn"></button>
+                <div class="add-task-before" id="add-task-div2"></div>
+            </div>
+        </div>
+        <br>
+    </div>
+    <!--Formulairo oculto -->
+    <div id="task-form" style="display: none;" class="formulario-container">
+        <h2 id="add_task"></h2>
+        <form id="new-task-form">
+            <div class="form-group">
+                <input type="hidden" class="form-control" id="task-id" name="id">
+            </div>
+            <div class="form-group">
+                <label for="task-name" id="name_task"></label>
+                <input type="text" class="form-control" id="task-name" name="name">
+            </div>
+            <div class="form-group">
+                <label for="task-description" id="description_task"></label>
+                <textarea class="form-control" id="task-description" name="description"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="task-status" id="status_task"></label>
+                <select class="form-control" id="select-status" name="status">
+                    <option id="in_progress"></option>
+                    <option id="wont_do"></option>
+                    <option id="completed"></option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="task-icon" id="task_icon"></label><br>
+                <div class="radio-img">
+                    <input type="radio" id="img1" name="image-select">
+                    <label id="lbl-img1" for="img1"></label>
+                </div>
+                <div class="radio-img">
+                    <input type="radio" id="img2" name="image-select">
+                    <label id="lbl-img2" for="img2"></label>
+                </div>
+                <div class="radio-img">
+                    <input type="radio" id="img3" name="image-select">
+                    <label id="lbl-img3" for="img3"></label>
+                </div>
+                <div class="radio-img">
+                    <input type="radio" id="img4" name="image-select">
+                    <label id="lbl-img4" for="img4"></label>
+                </div>
+                <div class="radio-img">
+                    <input type="radio" id="img5" name="image-select">
+                    <label id="lbl-img5" for="img5"></label>
+                </div>
+                <input type="hidden" id="selected-icon" name="selected-icon" value="">
+
+            </div>
+
+            <button id="submit" type="submit" class="btn btn-primary"></button>
+            <button id="cancel" type="button" class="btn btn-primary" style=></button>
+            <button id="delete_btn" type="button" class="btn btn-danger" hidden></button>
+        </form>
+    </div>
+    </div>
+    <script>//INICIALIZAR ARRAY PARA TRADUCIR LA PAGINA 
+        const ID_ARRAY = [
+            "task_board",
+            "description_task_board",
+            "add_task",
+            "add_btn",
+            "name_task",
+            "description_task",
+            "status_task",
+            "in_progress",
+            "wont_do",
+            "completed",
+            "submit",
+            "cancel",
+            "delete_btn",
+            "task_icon"
+        ];
+        const STATUS_ARRAY = ["in_progress", "wont_do", "completed"];
+
+    </script>
+    <script>//MOSTRAR TASKS 
+        var div = document.getElementById("new-tasks-div");
+        fetch(`/api/task`)
+            .then(response => response.json())
+            .then((data) => {
+                data.forEach(element => {
+                    createTaskDiv(element);
+                })
+            })
+            .catch((error) => { console.error('Error:', error) });
+        function createTaskDiv(element) {
+            let status = element.status;
+            status = status.statusId - 1;
+            let icon = element.icon; 
+            div.innerHTML += `
+            <button class='${STATUS_ARRAY[status]}' id='${element.taskId}'>
+                    <div style="background-image: url('${icon.path}');" class='${STATUS_ARRAY[status]}-after'></div>
+                    <h4>${element.name}</h4>
+                </button>
+                <div class="task-space"></div>
+            `;
+            addEventListener(document.querySelectorAll(`.wont_do`));
+            addEventListener(document.querySelectorAll(`.in_progress`));
+            addEventListener(document.querySelectorAll(`.completed`));
+        }
+    </script>
+    <script>
+
+    </script>
+    <script>//AÑADIR EVENTO PARA MOSTRAR INFO DEL FORMULARIO 
+        function addEventListener(btn) {
+            for (let i = 0; i < btn.length; i++) {
+                btn[i].addEventListener('click', (event) => {
+                    var target = event.currentTarget;
+                    if (target.id) {
+                        ediTask(target.id);
+                    } else {
+                        console.error('Button has no id attribute');
+                    }
+                });
+            }
+        }
+
+    </script>
+    <script>//Display edit task menu 
+        function ediTask(id) {
+
+            grayScreen();
+            fetch(`/api/task/${id}`)
+                .then(response => response.json())
+                .then((data) => {
+
+                    document.getElementById("task-name").value = data.name;
+                    document.getElementById("task-description").value = data.description;
+                    document.getElementById("select-status").selectedIndex = data.status.statusId - 1;
+                    document.getElementById("task-id").value = data.taskId;
+                    let icon = data.icon;
+                    document.getElementById(`img${icon.iconId}`).checked = true;
+                })
+                .catch((error) => { console.error('Error:', error) });
+            let deleteButton = document.getElementById('delete_btn');
+            deleteButton.hidden = false;
+            deleteButton.addEventListener('click', () => deleteTask(id));  // Corregido: pasando la referencia a la función
+
+        }
+    </script>
+    <script>//OBTENER EL IDIOMA ACTUAL
+        fetch("/api/lang")
+            .then(response => response.json())
+            .then(data => {
+                valData(data);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+
+        function valData(data) {
+            data.forEach(item => {
+                if (item.checked) {
+                    writeAll(item.language);
+                    return;
+                }
+            });
+        }
+
+    </script>
+    <script>//TRADUCIR LA PAGINA 
+        function writeAll(lang) {
+            for (let i = 0; i < ID_ARRAY.length; i++) {
+                fetch(`/api/translator/${ID_ARRAY[i]}/${lang}`)
+                    .then((response) => response.text())
+                    .then(data => {
+                        let doc = document.getElementById(ID_ARRAY[i]);
+                        if (doc != null) {
+                            doc.innerHTML = data;
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+            }
+        }
+    </script>
+
+    <script>//PINTAR DE GRIS LA PANTALLA 
+        document.getElementById("add_btn").addEventListener('click', function () {
+            grayScreen();
+        });
+        function grayScreen() {
+            document.body.style.background = '#7F7D7D';
+            document.getElementById("add-task-div").style.background = '#7F7D7D';
+            document.getElementById("add-task-div2").style.background = '#7F7D7D';
+            document.getElementById("add_btn").style.background = '#7F7D7D';
+            document.getElementById("task-form").style.display = "block";
+            document.getElementById("new-tasks-div").style.display = "block";
+            for (let i = 1; i <= 5; i++) {
+                let label = document.getElementById(`lbl-img${i}`);
+                label.innerHTML = `<img src="images/icon${i}.png" alt="Image ${i}">`;
+            }
+        }
+    </script>
+
+    <script>//CANCELAR AÑADIR DATA 
+        document.getElementById("cancel").addEventListener("click", function (event) {
+            var result = confirm("Sure to cancel?");
+
+            if (result === true) {
+                location.reload();
+            }
+        });
+    </script>
+
+    <script>//AGREGAR UNA NUEVA TAREA 
+        document.getElementById('new-task-form').addEventListener('submit', function (event) {
+            event.preventDefault();
+            var id = document.getElementById('task-id').value;
+            var name = document.getElementById('task-name').value.trim();
+            var description = document.getElementById('task-description').value.trim();
+            var status = document.getElementById('select-status').selectedIndex + 1;
+            var radioButtons = document.getElementsByName('image-select');
+            var isSelect = false;
+            var icon;
+
+            var selectedIcon = document.getElementById('selected-icon').value;
+            for (let i = 0; i < radioButtons.length; i++) {
+                if (radioButtons[i].checked) {
+                    isSelect = true;
+                    icon = i + 1;
+                    break;
+                }
+            }
+            if (!isSelect) {
+                alert('Error: select an icon');
+            } else {
+                if (!name) {
+                    alert('Error: name can\'t be empty');
+                } else {
+                    var jsonData = {
+                        name: name,
+                        description: description,
+                        status: {
+                            statusId: status,
+                            name: ''
+                        },
+                        icon: {
+                            //iconId: parseInt(selectedIcon.substring(3), 10)
+                            iconId: icon
+                        }
+
+                    }
+
+                    if (id != '') {
+                        updateTask(jsonData, id);
+                    } else {
+                        addTask(jsonData);
+                    }
+                }
+            }
+        });
+
+        function addTask(jsonData) {
+            fetch('/api/task', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(jsonData)
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('HTTP error ' + response.status);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                
+                    // Redirige solo si la operación fue exitosa
+                    window.location = "task.html";
+                })
+                .catch(error => {
+                    console.error('There was a problem with the fetch operation:', error);
+                });
+        }
+
+        function updateTask(jsonData, id) {
+            
+            fetch(`/api/task/${id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(jsonData)
+            })
+                .then(res => {
+                    if (!res.ok) {
+                        throw new Error('HTTP error ' + res.status);
+                    }
+                    return res.json();
+                })
+                .then(data => {
+                
+                    // Redirige solo si la operación fue exitosa
+                    window.location = "task.html";
+                })
+                .catch(error => {
+                    console.error('There was a problem with the fetch operation:', error);
+                });
+        }
+    </script>
+    <script>
+        function deleteTask(id) {
+            if (confirm('Are you sure to delete this task?')) {
+                fetch(`/api/task/${id}`, {
+                    method: 'DELETE'
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error(response.statusText);
+                        } else {
+                            location.reload();
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    })
+            }
+        }
+    </script>
+
+</body>
+
+</html>
