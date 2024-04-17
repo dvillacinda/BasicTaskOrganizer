@@ -138,8 +138,10 @@ function writeAll(lang) {
   
 ![App Screenshot](https://i.ibb.co/yYq6YPf/Captura-de-pantalla-2024-04-07-154041.png)
 
-- Add task 
+- Add task
+  
 ![App Screenshot](https://i.ibb.co/Xbk4MjC/Captura-de-pantalla-2024-04-08-154733.png)
 
 - Update or Delete Task
+  
 ![App Screenshot](https://i.ibb.co/Pw9TzW2/Captura-de-pantalla-2024-04-16-135455.png)
