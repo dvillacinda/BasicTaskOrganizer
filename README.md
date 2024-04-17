@@ -131,10 +131,11 @@ function writeAll(lang) {
 ![App Screenshot](https://i.ibb.co/fGYJRb1/Captura-de-pantalla-2024-04-07-145829.png)
 
 - Menu to go home or change lenguage
-- 
+  
 ![App Screenshot](https://i.ibb.co/ZTdMmhG/Captura-de-pantalla-2024-04-08-154605.png)
 
-- Lenguage options 
+- Lenguage options
+  
 ![App Screenshot](https://i.ibb.co/yYq6YPf/Captura-de-pantalla-2024-04-07-154041.png)
 
 - Add task 
