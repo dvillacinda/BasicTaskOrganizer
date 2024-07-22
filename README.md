@@ -121,27 +121,3 @@ function writeAll(lang) {
         }
 ```
 
-## Demo
-- Task organizer in English 
-
-![App Screenshot](https://i.ibb.co/f1YDJrD/Captura-de-pantalla-2024-04-07-145845.png)
-
-- Task organizer in Spanish
-
-![App Screenshot](https://i.ibb.co/fGYJRb1/Captura-de-pantalla-2024-04-07-145829.png)
-
-- Menu to go home or change lenguage
-  
-![App Screenshot](https://i.ibb.co/ZTdMmhG/Captura-de-pantalla-2024-04-08-154605.png)
-
-- Lenguage options
-  
-![App Screenshot](https://i.ibb.co/yYq6YPf/Captura-de-pantalla-2024-04-07-154041.png)
-
-- Add task
-  
-![App Screenshot](https://i.ibb.co/Xbk4MjC/Captura-de-pantalla-2024-04-08-154733.png)
-
-- Update or Delete Task
-  
-![App Screenshot](https://i.ibb.co/Pw9TzW2/Captura-de-pantalla-2024-04-16-135455.png)
