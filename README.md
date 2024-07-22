@@ -1,15 +1,19 @@
 
 # Task Organizer
+This is an full stack application to use Java21, the spring framework for the backend and JS & CSS for the frontend. 
+In the app you can make a CRUD for the task and save all of them into the MySQL database. Also, you can change the lenguage 
+for the application to Spanish or English if you want. 
+In this application you can do all of this activities: 
 
 - HTTP Methots GET, PUT, POST, DELETE
 - Using fetch to access the data
-- Can change lenguage to Spanish and English
-- Can make a CRUD of the tasks
+- Change lenguage to Spanish and English
+- Make a CRUD of the tasks
 
 
 
-
-## CRUD Task
+## PART OF THE CODE 
+### CRUD Task
 
 ```java
 package mx.com.gm.spring.controller;
