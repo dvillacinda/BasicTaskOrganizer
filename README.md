@@ -1,7 +1,7 @@
 
 # Task Organizer
 
-- Microservices HTTP GET, PUT, POST, DELETE
+- HTTP Methots GET, PUT, POST, DELETE
 - Using fetch to access the data
 - Can change lenguage to Spanish and English
 - Can make a CRUD of the tasks
